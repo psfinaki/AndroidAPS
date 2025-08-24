@@ -255,7 +255,8 @@ class AutomationPlugin @Inject constructor(
         }
         val enabled = constraintChecker.isAutomationEnabled()
         if (!enabled.value()) {
-            executionLog.add(enabled.getMostLimitedReasons())
+            val reason = enabled.getMostLimitedReasons()
+            if (executionLog.lastOrNull() != reason) executionLog.add(reason)
             rxBus.send(EventAutomationUpdateGui())
             commonEventsEnabled = false
         }
